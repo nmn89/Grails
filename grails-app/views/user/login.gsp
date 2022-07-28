@@ -51,6 +51,11 @@
     font-size: 30px;
 }
 
+    #errorMessage {
+        text-align: center;
+        color: red;
+    }
+
 </style>
 <body>
 <div id="body">
@@ -71,7 +76,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success"><g:message code="default.button.create.label" default="Create" /></button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><g:message code="default.close.label" /></button>
                 </div>
                 </g:form>
                 </div>
@@ -91,6 +96,9 @@
     <g:submitButton class="btn btn-outline-success" name="login" value="Login" />
     <button type="button" id="registerUser" class="btn btn-outline-primary"><g:message code="default.signup.label" default="Signup"/></button>
 </g:form>
+    <div>
+        <h6 id="errorMessage"><em>${message}</em></h6>
+    </div>
 </div>
 </div>
 </body>

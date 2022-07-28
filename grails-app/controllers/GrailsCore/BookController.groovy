@@ -15,12 +15,28 @@ class BookController {
 
     def saveBook(){
         def response = bookService.create(params)
-        redirect(controller: "user",action: "home",id: params.user.id)
+        if(response!=null){
+            redirect(controller: "user",action: "home",id: params.user.id)
+        }
+        else{
+            redirect(controller: "user",action: "index",id: params.user.id)
+        }
     }
 
-    def deleteBook(int id){
-        def userId = bookService.delete(id)
+    def deleteBook(int bookId,int userId){
+        bookService.delete(bookId)
         redirect(controller: "user",action: "home",id: userId)
+    }
+
+    def editBook(int bookId){
+        String template = bookService.read(bookId)
+        def map = [form: template,uniqueId: "editBook"]
+        render map as JSON
+    }
+
+    def updateBook(params){
+        def book = bookService.update(params)
+        redirect(controller: "user",action: "home",id: params.user.id)
     }
 
     def showUserBooks(Integer id){

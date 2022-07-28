@@ -3,8 +3,7 @@ package GrailsCore
 
 import grails.transaction.Transactional
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
-
-import javax.validation.constraints.Null
+import java.util.Base64
 
 @Transactional
 class UserService{
@@ -12,20 +11,23 @@ class UserService{
     def groovyPageRenderer
 
     def create(GrailsParameterMap params){
-        User user = new User(params)
-        if(user.validate()){
-            user.save(flush: true)
+        params.password = encodePassword(params.password)
+        User newUser = new User(params)
+        if(newUser.validate()){
+            newUser.save(flush: true)
+            return newUser
         }
         else{
-            user.errors.allErrors.each {
+            newUser.errors.allErrors.each {
                 println it
             }
+            return null
         }
-        return user
     }
 
     def update(GrailsParameterMap params){
         def user = User.get(params.id)
+        params.password = encodePassword(params.password)
         user.properties = params
         if(user.validate()){
             user.save(flush: true)
@@ -39,6 +41,7 @@ class UserService{
     }
 
     def authenticateUser(GrailsParameterMap params) {
+        params.password = encodePassword(params.password)
         def user = User.findByEmailAndPassword(params.email,params.password)
         boolean condition = false
         if(user!= null){
@@ -69,4 +72,14 @@ class UserService{
         user.delete(flush: true)
     }
 
+    def encodePassword(String password){
+        String encodedText = Base64.getEncoder().encodeToString(password.getBytes("UTF-8"))
+        return encodedText
+    }
+
+    def decodePassword(String encodeText){
+        byte[] decodeArr = Base64.getDecoder().decode(encodeText)
+        String decodeText = new String(decodeArr,"UTF-8")
+        return decodeText
+    }
 }

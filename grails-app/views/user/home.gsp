@@ -53,8 +53,13 @@
         box-sizing: border-box;
     }
 
-    #editUserAccount {
+    .homeButton {
         margin-right: 5px;
+    }
+
+    #errorMessage {
+        text-align: center;
+        color: red;
     }
 
     /*#header {*/
@@ -68,13 +73,17 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 <body>
 <nav class="nav">
-    <button class="btn btn-primary" type="button" id="editUserAccount"><g:message code="default.edit.User.label" default="Edit Account"/></button>
-    <button class="btn btn-primary" type="button" id="addBook"><g:message code="default.add.Book.label" default="Add Book"/></button>
+    <button class="homeButton btn btn-primary" type="button" id="editUserAccount"><g:message code="default.edit.User.label" default="Edit Account"/></button>
+    <button class="homeButton btn btn-primary" type="button" id="addBook"><g:message code="default.add.Book.label" default="Add Book"/></button>
+    <a class="btn btn-primary homeButton" href="<g:createLink controller="user" action="login" />">Logout</a>
 </nav>
 <div id="header">
 <h1><g:message code="default.book.label" default="Books" /></h1>
 </div>
 <div class="modal fade" id="addPopup" role="dialog">
+</div>
+<div>
+    <h4 id="errorMessage"><em>${msg}</em></h4>
 </div>
     <div id="list-user" class="content scaffold-list" role="main">
             <g:render template="showBook"/>
@@ -106,6 +115,23 @@
                 $('#addPopup').html(response.form);
                 $('#addPopup').modal('show');
             }
+        });
+    });
+
+    $(document).ready(function (){
+        $(document).on('click','#updateBook',function (){
+            var bookId = $(this).attr('value');
+            $.ajax({
+                url: "http://localhost:8080/GrailsCore/book/editBook",
+                data:{
+                    bookId: bookId
+                },
+                dataType: 'json',
+                success: function (response){
+                    $('#addPopup').html(response.form);
+                    $('#addPopup').modal('show');
+                }
+            });
         });
     });
 </script>

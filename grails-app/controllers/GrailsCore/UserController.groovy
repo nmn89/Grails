@@ -1,13 +1,10 @@
 package GrailsCore
 
-import com.org.grailscore.DataTableDto
 import grails.converters.JSON
 
 class UserController {
 
     UserService userService
-
-    BookService bookService
 
     def login() {
     }
@@ -19,7 +16,7 @@ class UserController {
                 redirect(action: "home",id: response.id)
             }
             else{
-                redirect action: "login"
+                render(view: "login",model: [message: "wrong email or password"])
             }
         }
         else{
@@ -28,13 +25,22 @@ class UserController {
     }
 
     def home(Integer id) {
-//        def response = bookService.showByUser(params.id)
         [userId: id]
+    }
+
+    def index(Integer id){
+        String message = "OOPS! Record already exists"
+        render(view: "home",model: [userId: id,msg: message])
     }
 
     def saveUser() {
         def response = userService.create(params)
-        redirect action: "login"
+        if(response){
+            redirect action: "login"
+        }
+        else{
+            render(view: "login",model: [message: "Email already exists"])
+        }
     }
 
     def registerUser(){

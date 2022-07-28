@@ -10,16 +10,25 @@ class BookService {
     def groovyPageRenderer
 
     def create(GrailsParameterMap params){
-        Book book = new Book(params)
-        if(book.validate()){
-            book.save(flush: true)
-        }
-        else{
-            book.errors.allErrors.each {
-                println it
+        if(params.bookName!=null && params.authorName!=null){
+            def book = Book.findByBookNameAndAuthorName(params.bookName,params.authorName);
+            if(book){
+                return null
+            }
+            else{
+                Book newBook = new Book(params)
+                if(newBook.validate()){
+                    newBook.save(flush: true)
+                    return newBook
+                }
+                else{
+                    newBook.errors.allErrors.each {
+                        println it
+                        return null
+                    }
+                }
             }
         }
-        return book
     }
 
     def update(GrailsParameterMap params){
@@ -36,9 +45,10 @@ class BookService {
         return book
     }
 
-    def read(Serializable id){
+    def read(int id){
         def book = Book.get(id)
-        return book
+        String template = groovyPageRenderer.render(template: "/book/updateBook",model: [book:book])
+        return template
     }
 
     def show(){
@@ -48,9 +58,7 @@ class BookService {
 
     def delete(int id){
         def book = Book.get(id)
-        def userId = book.user.id
         book.delete(flush: true)
-        return userId
     }
 
     def addBook(Serializable id){

@@ -8,6 +8,8 @@
 
         <th><g:message code="default.book.language.label" default="Language" /></th>
 
+        <th><g:message code="default.button.update.label" default="Update" /></th>
+
         <th><g:message code="default.delete.label" default="Delete" /></th>
 
     </tr>
@@ -33,18 +35,26 @@
 <script>
 
     $(document).ready(function (){
+        reloadDataTable();
         $(document).on('click','#deleteBook',function (){
-            var bookId = $(this).attr('value');
-            $.ajax({
-                url:"${g.createLink(controller: 'book',action: 'deleteBook')}",
-                data:{
-                    id: bookId
-                },
-            });
+            var confirmation = confirm('Are you sure you want to delete this book?');
+            if(confirmation == true){
+                var bookId = $(this).attr('value');
+                $.ajax({
+                    url:"${g.createLink(controller: 'book',action: 'deleteBook')}",
+                    data:{
+                        bookId: bookId,
+                        userId: ${userId}
+                    },
+                    success:function (){
+                        location.reload();
+                    }
+                });
+            }
         });
     });
 
-
+function reloadDataTable(){
     $('#bookTable').DataTable({
         paging: false,
         ajax: {
@@ -87,6 +97,17 @@
                 targets: 3,
                 render: function (row, type, val, meta){
                     var button = document.createElement("button");
+                    button.setAttribute("id","updateBook");
+                    button.setAttribute("class","btn btn-primary");
+                    button.setAttribute("value",val[3])
+                    button.innerHTML = "Update";
+                    return button.outerHTML;
+                }
+            },
+            {
+                targets: 4,
+                render: function (row, type, val, meta){
+                    var button = document.createElement("button");
                     button.setAttribute("id","deleteBook");
                     button.setAttribute("class","btn btn-danger");
                     button.setAttribute("value",val[3])
@@ -96,4 +117,5 @@
             }
         ]
     });
+}
 </script>
