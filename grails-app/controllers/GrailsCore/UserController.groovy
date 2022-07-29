@@ -1,5 +1,6 @@
 package GrailsCore
 
+import com.org.grailscore.CO.UserCO
 import grails.converters.JSON
 
 class UserController {
@@ -36,10 +37,10 @@ class UserController {
     def saveUser() {
         def response = userService.create(params)
         if(response){
-            redirect action: "login"
+            render(view: "login",model: [message: "User registered Successfully"])
         }
         else{
-            render(view: "login",model: [message: "Email already exists"])
+            render(view: "login",model: [message: "User with entered email already exists"])
         }
     }
 
@@ -49,9 +50,9 @@ class UserController {
         render map as JSON
     }
 
-    def editUser(){
-        String template = userService.read(params.id)
-        def map = [form: template,uniqueId: "editUser"]
+    def editUser(int id){
+        String template = userService.read(id)
+        def map = [form: template]
         render map as JSON
     }
 

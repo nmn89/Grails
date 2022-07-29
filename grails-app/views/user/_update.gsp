@@ -24,7 +24,7 @@
     <label for="password">
         <g:message code="default.password.label" default="Password" />
     </label>
-    <g:passwordField class="formFields" name="password" maxlength="30" required="" value="${user?.password}"/><br/>
+    <g:passwordField class="formFields" name="password" maxlength="30" required="" value="${password}"/><br/>
     </div>
     <div class="modal-footer">
     <button type="submit" class="btn btn-success"><g:message code="default.button.update.label" default="Update" /></button>

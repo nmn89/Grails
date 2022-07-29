@@ -4,6 +4,8 @@ import grails.transaction.Transactional
 import com.org.grailscore.DataTableDto
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
 
+import java.text.SimpleDateFormat
+
 @Transactional
 class BookService {
 
@@ -32,17 +34,18 @@ class BookService {
     }
 
     def update(GrailsParameterMap params){
-        def book = Book.get(params.id)
-        book.properties = params
-        if(book.validate()){
-            book.save(flush: true)
-        }
-        else{
-            book.errors.allErrors.each {
-                println it
+        if(params.bookName!=null && params.authorName!=null) {
+            def book = Book.get(params.id)
+            book.properties = params
+            if (book.validate()) {
+                book.save(flush: true)
+            } else {
+                book.errors.allErrors.each {
+                    println it
+                }
             }
+            return book
         }
-        return book
     }
 
     def read(int id){
@@ -61,7 +64,7 @@ class BookService {
         book.delete(flush: true)
     }
 
-    def addBook(Serializable id){
+    def addBook(int id){
         String template = groovyPageRenderer.render(template: '/book/addBook',model: [id: id])
         return template
     }
@@ -75,10 +78,16 @@ class BookService {
             Data << book.bookName
             Data << book.authorName
             Data << book.language
+            Data << book.date
             Data << book.id
             bookResponse << Data
             Data = []
         }
         return new DataTableDto<List<List<String>>>(data: bookResponse)
     }
+
+//    static String formatDate(String dateInString) {
+//        Date date = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(dateInString)
+//        return new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date)
+//    }
 }

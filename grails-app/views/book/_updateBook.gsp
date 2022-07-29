@@ -23,6 +23,12 @@
         </label>
         <g:textField class="formFields" name="language" maxlength="15" required="" value="${book?.language}"/><br/>
 
+        <label for="date">
+            <g:message code="default.book.date.label" default="Date"/>
+        </label>
+        <g:field name="date"  class="formFields form-control signup_date_width"  required="required"
+                 type="date" style="width: 200px;"/>
+
         <g:hiddenField name="id" value="${book.id}" />
 
         <g:hiddenField name="user.id" value="${book.userId}" />

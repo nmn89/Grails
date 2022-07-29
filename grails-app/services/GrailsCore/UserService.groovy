@@ -1,6 +1,6 @@
 package GrailsCore
 
-
+import com.org.grailscore.CO.UserCO
 import grails.transaction.Transactional
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsParameterMap
 import java.util.Base64
@@ -11,22 +11,28 @@ class UserService{
     def groovyPageRenderer
 
     def create(GrailsParameterMap params){
-        params.password = encodePassword(params.password)
-        User newUser = new User(params)
-        if(newUser.validate()){
-            newUser.save(flush: true)
-            return newUser
+        if(params){
+            params.password = encodePassword(params.password)
+            User newUser = new User(params)
+            if(newUser.validate()){
+                newUser.save(flush: true)
+                return newUser
+            }
+            else{
+                newUser.errors.allErrors.each {
+                    println it
+                }
+                return null
+            }
         }
         else{
-            newUser.errors.allErrors.each {
-                println it
-            }
             return null
         }
     }
 
     def update(GrailsParameterMap params){
         def user = User.get(params.id)
+        user.password
         params.password = encodePassword(params.password)
         user.properties = params
         if(user.validate()){
@@ -51,9 +57,10 @@ class UserService{
         return [condition: condition]
     }
 
-    def read(Serializable id){
+    def read(int id){
         def user = User.get(id)
-        String template = groovyPageRenderer.render(template: "/user/update",model: [user: user])
+        def decoded = decodePassword(user.password)
+        String template = groovyPageRenderer.render(template: "/user/update",model: [user: user,password:decoded])
         return template
     }
 

@@ -10,26 +10,26 @@
 </head>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
 <style>
-    #bookTable {
-        font-family: Arial, Helvetica, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-    }
+    /*#bookTable {*/
+    /*    font-family: Arial, Helvetica, sans-serif;*/
+    /*    border-collapse: collapse;*/
+    /*    width: 100%;*/
+    /*}*/
 
-    #bookTable td, #userTable th {
-        border: 1px solid #ddd;
-        padding: 8px;
-    }
+    /*#bookTable td, #userTable th {*/
+    /*    border: 1px solid #ddd;*/
+    /*    padding: 8px;*/
+    /*}*/
 
-    #bookTable tr:nth-child(even){background-color: #f2f2f2;}
+    /*#bookTable tr:nth-child(even){background-color: #f2f2f2;}*/
 
-    #bookTable th {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        text-align: left;
-        background-color: #04AA6D;
-        color: white;
-    }
+    /*#bookTable th {*/
+    /*    padding-top: 12px;*/
+    /*    padding-bottom: 12px;*/
+    /*    text-align: left;*/
+    /*    background-color: #04AA6D;*/
+    /*    color: white;*/
+    /*}*/
 
     .editButton {
         background-color: white;
@@ -54,7 +54,11 @@
     }
 
     .homeButton {
+        font-size: 1.3em;
+        color: white;
+        text-decoration: none;
         margin-right: 5px;
+        cursor: pointer;
     }
 
     #errorMessage {
@@ -62,20 +66,24 @@
         color: red;
     }
 
-    /*#header {*/
-    /*    padding: 2px 3px 4px 5px;*/
-    /*    text-align: center;*/
-    /*    background: #1abc9c;*/
-    /*    color: white;*/
-    /*    font-size: 30px;*/
-    /*}*/
+    #header {
+        margin-top: 20px;
+        padding: 2px 3px 4px 5px;
+        text-align: center;
+        font-size: 30px;
+    }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 <body>
-<nav class="nav">
-    <button class="homeButton btn btn-primary" type="button" id="editUserAccount"><g:message code="default.edit.User.label" default="Edit Account"/></button>
-    <button class="homeButton btn btn-primary" type="button" id="addBook"><g:message code="default.add.Book.label" default="Add Book"/></button>
-    <a class="btn btn-primary homeButton" href="<g:createLink controller="user" action="login" />">Logout</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-Secondary">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mt-2 mb-lg-0">
+            <li><h1>Grails CRUD</h1></li>
+            <li class="nav-item"><a class="homeButton" id="addBook" style="margin-left: 630px;margin-right: 60px;"><g:message code="default.add.Book.label" default="Add Book"/></a></li>
+            <li class="nav-item"><a class="homeButton" id="editUserAccount" style="margin-right: 60px;"><g:message code="default.edit.User.label" default="Edit Account"/></a></li>
+            <li class="nav-item"><a class="homeButton" href="<g:createLink controller="user" action="login" />">Logout</a></li>
+        </ul>
+    </div>
 </nav>
 <div id="header">
 <h1><g:message code="default.book.label" default="Books" /></h1>

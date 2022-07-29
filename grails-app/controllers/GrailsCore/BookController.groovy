@@ -7,9 +7,9 @@ class BookController {
 
     BookService bookService
 
-    def addBook() {
-        String template = bookService.addBook(params.id)
-        def map = [form: template,uniqueId: "addBook"]
+    def addBook(int id) {
+        String template = bookService.addBook(id)
+        def map = [form: template]
         render map as JSON
     }
 
@@ -30,7 +30,7 @@ class BookController {
 
     def editBook(int bookId){
         String template = bookService.read(bookId)
-        def map = [form: template,uniqueId: "editBook"]
+        def map = [form: template]
         render map as JSON
     }
 

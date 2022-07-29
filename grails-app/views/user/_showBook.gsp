@@ -1,5 +1,7 @@
-<table class="table" id="bookTable">
-    <thead>
+<div class="row px-5">
+    <div class="col-md-12">
+<table class="table table-striped table-hover" id="bookTable">
+    <thead class="table-dark">
     <tr>
 
         <th><g:message code="default.book.name.label" default="Book Name"/></th>
@@ -8,30 +10,17 @@
 
         <th><g:message code="default.book.language.label" default="Language" /></th>
 
+        <th><g:message code="default.book.date.label" default="Date"/></th>
+
         <th><g:message code="default.button.update.label" default="Update" /></th>
 
         <th><g:message code="default.delete.label" default="Delete" /></th>
 
     </tr>
     </thead>
-    %{--        <tbody>--}%
-    %{--        <g:each in="${booklist}" status="i" var="book">--}%
-    %{--            <tr>--}%
-
-    %{--                <td>${book.bookName}</td>--}%
-
-    %{--                <td>${book.authorName}</td>--}%
-
-    %{--                <td>${book.language}</td>--}%
-
-    %{--                <td><g:form url="[resource:book, action:'delete']" method="DELETE">--}%
-    %{--                        <g:actionSubmit class="editButton" action="deleteBook" value="Delete Book" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />--}%
-    %{--                </g:form></td>--}%
-
-    %{--            </tr>--}%
-    %{--        </g:each>--}%
-    %{--        </tbody>--}%
 </table>
+        </div>
+        </div>
 <script>
 
     $(document).ready(function (){
@@ -95,22 +84,28 @@ function reloadDataTable(){
             },
             {
                 targets: 3,
-                render: function (row, type, val, meta){
-                    var button = document.createElement("button");
-                    button.setAttribute("id","updateBook");
-                    button.setAttribute("class","btn btn-primary");
-                    button.setAttribute("value",val[3])
-                    button.innerHTML = "Update";
-                    return button.outerHTML;
+                render: function (row, type, val, meta) {
+                    return val[3];
                 }
             },
             {
                 targets: 4,
                 render: function (row, type, val, meta){
                     var button = document.createElement("button");
+                    button.setAttribute("id","updateBook");
+                    button.setAttribute("class","btn btn-primary");
+                    button.setAttribute("value",val[4])
+                    button.innerHTML = "Update";
+                    return button.outerHTML;
+                }
+            },
+            {
+                targets: 5,
+                render: function (row, type, val, meta){
+                    var button = document.createElement("button");
                     button.setAttribute("id","deleteBook");
                     button.setAttribute("class","btn btn-danger");
-                    button.setAttribute("value",val[3])
+                    button.setAttribute("value",val[5])
                     button.innerHTML = "Delete";
                     return button.outerHTML;
                 }
